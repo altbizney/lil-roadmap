@@ -23,6 +23,8 @@ const client = new ApolloClient({
 
 const app = express();
 
+app.use(express.static('public'));
+
 app.get('/', async (req, res) => {
   const { data } = await client.query({
     query: gql`
@@ -45,7 +47,18 @@ app.get('/', async (req, res) => {
     `,
   });
 
-  let html = '<table><tr><th>Title</th><th>Description</th><th>Status</th></tr>';
+  let html = `
+    <html>
+      <head>
+        <link rel="stylesheet" type="text/css" href="/style.css">
+      </head>
+      <body>
+        <table>
+          <tr>
+            <th>Task</th>
+            <th>Description</th>
+            <th>Status</th>
+          </tr>`;
 
   data.issues.nodes.forEach(issue => {
     // Check if issue has the 'public' label
@@ -56,7 +69,10 @@ app.get('/', async (req, res) => {
     }
   });
 
-  html += '</table>';
+  html += `
+        </table>
+      </body>
+    </html>`;
 
   res.send(html);
 });
