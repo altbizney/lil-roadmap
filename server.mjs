@@ -34,6 +34,11 @@ app.get('/', async (req, res) => {
             state {
               name
             }
+            labels {
+              nodes {
+                id
+              }
+            }
           }
         }
       }
@@ -43,7 +48,12 @@ app.get('/', async (req, res) => {
   let html = '<table><tr><th>Title</th><th>Description</th><th>Status</th></tr>';
 
   data.issues.nodes.forEach(issue => {
-    html += `<tr><td>${issue.title}</td><td>${issue.description}</td><td>${issue.state.name}</td></tr>`;
+    // Check if issue has the 'public' label
+    const hasPublicLabel = issue.labels.nodes.some(label => label.id === '1c39e675-4833-4418-991b-4db25fc49c83');
+
+    if (hasPublicLabel) {
+      html += `<tr><td>${issue.title}</td><td>${issue.description}</td><td>${issue.state.name}</td></tr>`;
+    }
   });
 
   html += '</table>';
