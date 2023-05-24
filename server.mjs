@@ -4,6 +4,9 @@ import pkgInMemoryCache from 'apollo-cache-inmemory';
 import pkgHttpLink from 'apollo-link-http';
 import fetch from 'node-fetch';
 import pkgGql from 'graphql-tag';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const { ApolloClient } = pkgApollo;
 const { InMemoryCache } = pkgInMemoryCache;
@@ -19,7 +22,7 @@ app.get('/', async (req, res) => {
     link: new HttpLink({
       uri: 'https://api.linear.app/graphql',
       headers: {
-        Authorization: 'Bearer lin_api_zfePTrUfm8BJoHuVsSg9ZEJlSZXboIErAsKh1wto',
+        Authorization: `Bearer ${process.env.LINEAR_API_KEY}`,
       },
       fetch,
     }),
@@ -52,9 +55,9 @@ app.get('/', async (req, res) => {
       Todo: 1,
       Backlog: 2,
       Canceled: 4,
-      Done: 5,
+      Done: 3,
     };
-  
+
     if (a.state.name === b.state.name) {
       // If both tasks have the same status, sort them alphabetically by title
       return a.title.localeCompare(b.title);
@@ -63,21 +66,25 @@ app.get('/', async (req, res) => {
       return order[a.state.name] - order[b.state.name];
     }
   });
-  
-  
 
   let html = `
     <html>
       <head>
         <link rel="stylesheet" type="text/css" href="/style.css">
+        <style>
+          .status-done del,
+          .status-canceled del {
+            text-decoration: line-through;
+          }
+        </style>
       </head>
       <body>
         <img class="tanaki" src="/tanaki.png" alt="Tanaki" />
         <h1>Tanaki Roadmap</h1>
         <table>
           <tr>
-            <th>TASK</th>
-            <th>STATUS</th>
+            <th>Task</th>
+            <th>Status</th>
           </tr>`;
 
   sortedTasks.forEach((issue) => {
@@ -85,7 +92,6 @@ app.get('/', async (req, res) => {
     if (hasPublicLabel) {
       const statusClass = `status-${issue.state.name.toLowerCase().replace(' ', '-')}`;
       const isDoneOrCancelled = issue.state.name === 'Done' || issue.state.name === 'Canceled';
-
       const taskText = isDoneOrCancelled ? `<del>${issue.title}</del>` : issue.title;
       const taskStatus = isDoneOrCancelled ? `<del>${issue.state.name}</del>` : issue.state.name;
       html += `<tr class="${statusClass}"><td>${taskText}</td><td class="${statusClass} status">${taskStatus}</td></tr>`;
@@ -94,7 +100,7 @@ app.get('/', async (req, res) => {
 
   html += `
         </table>
-        <p class="linear">Powered by <a href="https://linear.app">Linear</a></p>
+        <footer>Powered by <a href="https://github.com/altbizney/lil-roadmap">lil roadmap</a></footer>
       </body>
     </html>`;
 
