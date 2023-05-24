@@ -52,6 +52,8 @@ app.get('/', async (req, res) => {
         <link rel="stylesheet" type="text/css" href="/style.css">
       </head>
       <body>
+        <img class="tanaki" src="/tanaki.png" alt="Tanaki" />
+        <h1>Tanaki Roadmap</h1>
         <table>
           <tr>
             <th>Task</th>
@@ -59,14 +61,19 @@ app.get('/', async (req, res) => {
           </tr>`;
 
   data.issues.nodes.forEach(issue => {
-    // Check if issue has the 'public' label
     const hasPublicLabel = issue.labels.nodes.some(label => label.id === '1c39e675-4833-4418-991b-4db25fc49c83');
-
     if (hasPublicLabel) {
-      html += `<tr><td>${issue.title}</td><td>${issue.state.name}</td></tr>`;
+      const statusClass = `status-${issue.state.name.toLowerCase().replace(' ', '-')}`;
+      const taskText = issue.state.name === 'Complete' ? `<del>${issue.title}</del>` : issue.title;
+      const taskStatus = issue.state.name === 'Complete' ? `<del>${issue.state.name}</del>` : issue.state.name;
+      html += `<tr class="${statusClass}"><td>${taskText}</td><td class="${statusClass} status">${taskStatus}</td></tr>`;
     }
   });
-
+          
+          
+          
+          
+          
   html += `
         </table>
       </body>

@@ -10,10 +10,11 @@ body {
     border-collapse: collapse;
     width: 100%;
     margin-top: 20px;
+
   }
   
   th, td {
-    border: 1px solid #444;
+    border: 1px solid rgb(19, 19, 19);
     padding: 8px;
   }
   
@@ -23,7 +24,7 @@ body {
   }
   
   tr:nth-child(even) {
-    background-color: #333;
+    background-color: rgb(78, 78, 78);
   }
   
   tr:hover {
@@ -33,4 +34,39 @@ body {
   td {
     color: #fff;
   }
+ 
   
+
+  .status-open {
+    color: rgb(148, 148, 148);
+  }
+
+  .status-cancelled {
+    color: red;
+  }
+
+  .status-in-progress {
+    color: rgb(153, 255, 0);
+  }
+
+  .completed-task {
+    text-decoration: line-through;
+  }
+
+  .status-done {
+    text-decoration: line-through;
+  }
+
+  h1 {
+    color: #fff;
+    margin-top: 25px;
+    font-size: 50px;
+    margin-bottom: 0;
+  }
+
+  .tanaki {
+    width: 50px;
+    display: inline-block;
+    float: left;
+    margin-right: 25px;
+  }
