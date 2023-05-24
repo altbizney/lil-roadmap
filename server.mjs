@@ -10,22 +10,22 @@ const { InMemoryCache } = pkgInMemoryCache;
 const { HttpLink } = pkgHttpLink;
 const gql = pkgGql;
 
-const client = new ApolloClient({
-  link: new HttpLink({
-    uri: 'https://api.linear.app/graphql',
-    headers: {
-      Authorization: 'Bearer lin_api_zfePTrUfm8BJoHuVsSg9ZEJlSZXboIErAsKh1wto',
-    },
-    fetch,
-  }),
-  cache: new InMemoryCache(),
-});
-
 const app = express();
 
 app.use(express.static('public'));
 
 app.get('/', async (req, res) => {
+  const client = new ApolloClient({
+    link: new HttpLink({
+      uri: 'https://api.linear.app/graphql',
+      headers: {
+        Authorization: 'Bearer lin_api_zfePTrUfm8BJoHuVsSg9ZEJlSZXboIErAsKh1wto',
+      },
+      fetch,
+    }),
+    cache: new InMemoryCache(),
+  });
+
   const { data } = await client.query({
     query: gql`
       query {
@@ -60,8 +60,8 @@ app.get('/', async (req, res) => {
             <th>Status</th>
           </tr>`;
 
-  data.issues.nodes.forEach(issue => {
-    const hasPublicLabel = issue.labels.nodes.some(label => label.id === '1c39e675-4833-4418-991b-4db25fc49c83');
+  data.issues.nodes.forEach((issue) => {
+    const hasPublicLabel = issue.labels.nodes.some((label) => label.id === '1c39e675-4833-4418-991b-4db25fc49c83');
     if (hasPublicLabel) {
       const statusClass = `status-${issue.state.name.toLowerCase().replace(' ', '-')}`;
       const taskText = issue.state.name === 'Complete' ? `<del>${issue.title}</del>` : issue.title;
@@ -69,11 +69,7 @@ app.get('/', async (req, res) => {
       html += `<tr class="${statusClass}"><td>${taskText}</td><td class="${statusClass} status">${taskStatus}</td></tr>`;
     }
   });
-          
-          
-          
-          
-          
+
   html += `
         </table>
       </body>
