@@ -76,8 +76,8 @@ app.get('/', async (req, res) => {
         <h1>Tanaki Roadmap</h1>
         <table>
           <tr>
-            <th>Task</th>
-            <th>Status</th>
+            <th>TASK</th>
+            <th>STATUS</th>
           </tr>`;
 
   sortedTasks.forEach((issue) => {
@@ -94,6 +94,7 @@ app.get('/', async (req, res) => {
 
   html += `
         </table>
+        <p class="linear">Powered by <a href="https://linear.app">Linear</a></p>
       </body>
     </html>`;
 

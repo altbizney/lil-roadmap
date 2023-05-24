@@ -23,6 +23,8 @@ body {
   th {
     background-color: #333;
     color: #fff;
+    text-align: left;
+    font-size: 70%;
   }
   
   tr:nth-child(even) {
@@ -81,4 +83,18 @@ body {
   .status-canceled del {
     text-decoration: line-through;
     opacity: 0.5;
+  }
+
+  .linear {
+    color: rgb(83, 83, 83);
+  }
+
+  .linear a {
+    text-decoration: underline;
+    color: rgb(137, 137, 137);
+  }
+
+  .linear a:hover {
+    text-decoration: none;
+    color: yellow;
   }
