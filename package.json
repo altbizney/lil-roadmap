@@ -1,0 +1,21 @@
+{
+  "name": "linear-roadmap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link-http": "^1.5.17",
+    "express": "^4.18.2",
+    "graphql": "^15.8.0",
+    "graphql-tag": "^2.12.6",
+    "node-fetch": "^3.3.1"
+  }
+}
