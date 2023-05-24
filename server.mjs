@@ -32,7 +32,6 @@ app.get('/', async (req, res) => {
         issues {
           nodes {
             title
-            description
             state {
               name
             }
@@ -56,7 +55,6 @@ app.get('/', async (req, res) => {
         <table>
           <tr>
             <th>Task</th>
-            <th>Description</th>
             <th>Status</th>
           </tr>`;
 
@@ -65,7 +63,7 @@ app.get('/', async (req, res) => {
     const hasPublicLabel = issue.labels.nodes.some(label => label.id === '1c39e675-4833-4418-991b-4db25fc49c83');
 
     if (hasPublicLabel) {
-      html += `<tr><td>${issue.title}</td><td>${issue.description}</td><td>${issue.state.name}</td></tr>`;
+      html += `<tr><td>${issue.title}</td><td>${issue.state.name}</td></tr>`;
     }
   });
 
