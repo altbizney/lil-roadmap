@@ -99,3 +99,12 @@ body {
     text-decoration: none;
     color: yellow;
   }
+
+  /* Mobile styles */
+@media only screen and (max-width: 600px) {
+  table {
+    width: 100%;
+    font-size: 140%;
+  }
+
+}
