@@ -46,6 +46,26 @@ app.get('/', async (req, res) => {
     `,
   });
 
+  const sortedTasks = data.issues.nodes.sort((a, b) => {
+    const order = {
+      'In Progress': 0,
+      Todo: 1,
+      Backlog: 2,
+      Canceled: 4,
+      Done: 5,
+    };
+  
+    if (a.state.name === b.state.name) {
+      // If both tasks have the same status, sort them alphabetically by title
+      return a.title.localeCompare(b.title);
+    } else {
+      // Otherwise, sort by the defined order
+      return order[a.state.name] - order[b.state.name];
+    }
+  });
+  
+  
+
   let html = `
     <html>
       <head>
@@ -60,12 +80,14 @@ app.get('/', async (req, res) => {
             <th>Status</th>
           </tr>`;
 
-  data.issues.nodes.forEach((issue) => {
+  sortedTasks.forEach((issue) => {
     const hasPublicLabel = issue.labels.nodes.some((label) => label.id === '1c39e675-4833-4418-991b-4db25fc49c83');
     if (hasPublicLabel) {
       const statusClass = `status-${issue.state.name.toLowerCase().replace(' ', '-')}`;
-      const taskText = issue.state.name === 'Complete' ? `<del>${issue.title}</del>` : issue.title;
-      const taskStatus = issue.state.name === 'Complete' ? `<del>${issue.state.name}</del>` : issue.state.name;
+      const isDoneOrCancelled = issue.state.name === 'Done' || issue.state.name === 'Canceled';
+
+      const taskText = isDoneOrCancelled ? `<del>${issue.title}</del>` : issue.title;
+      const taskStatus = isDoneOrCancelled ? `<del>${issue.state.name}</del>` : issue.state.name;
       html += `<tr class="${statusClass}"><td>${taskText}</td><td class="${statusClass} status">${taskStatus}</td></tr>`;
     }
   });
