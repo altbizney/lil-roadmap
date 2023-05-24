@@ -85,16 +85,17 @@ body {
     opacity: 0.5;
   }
 
-  .linear {
+  footer {
+    margin-top: 25px;
     color: rgb(83, 83, 83);
   }
 
-  .linear a {
+  footer a {
     text-decoration: underline;
     color: rgb(137, 137, 137);
   }
 
-  .linear a:hover {
+  footer a:hover {
     text-decoration: none;
     color: yellow;
   }
